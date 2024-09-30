@@ -7,7 +7,7 @@ ENV MPLCONFIGDIR=/tmp/matplotlib
 ENV NUMBA_CACHE_DIR=/tmp/numba_cache
 
 # Create the directories for the environment variables
-RUN mkdir -p /tmp/matplotlib /tmp/numba_cache
+RUN mkdir -p /app/matplotlib_cache /app/numba_cache && chmod -R 777 /app/matplotlib_cache /app/numba_cache
 
 EXPOSE 6969
 
