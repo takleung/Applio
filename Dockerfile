@@ -1,19 +1,28 @@
-# syntax=docker/dockerfile:1
+# Base image with Python
+FROM python:3.10-slim
 
-FROM python:3.10-bullseye
+# Set environment variables for Matplotlib and Numba
+ENV MPLCONFIGDIR=/tmp/matplotlib
+ENV NUMBA_CACHE_DIR=/tmp/numba_cache
 
-EXPOSE 6969
+# Create the directories for the environment variables
+RUN mkdir -p /tmp/matplotlib /tmp/numba_cache
 
+# Set the working directory in the container
 WORKDIR /app
 
-RUN apt update && apt install -y -qq ffmpeg aria2 && apt clean
+# Copy the requirements.txt file to the container
+COPY requirements.txt .
 
+# Upgrade pip and install the required Python packages
+RUN pip install --upgrade pip && \
+    pip install --no-cache-dir -r requirements.txt
+
+# Copy the rest of the application code to the container
 COPY . .
 
-RUN pip3 install --no-cache-dir -r requirements.txt
+# Expose the port if your app runs on a specific port (e.g., 8080)
+# EXPOSE 8080
 
-VOLUME [ "/app/logs/weights", "/app/opt" ]
-
-ENTRYPOINT [ "python3" ]
-
-CMD ["app.py"]
+# Set the default command to run your application
+CMD ["python3", "app.py"]
