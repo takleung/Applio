@@ -1,0 +1,19 @@
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: applio-git
+  namespace: applio4
+  labels:
+    app: applio-git
+spec:
+  host: applio-git-applio4.apps.rosa.rosa-us-east-2.e8dy.p3.openshiftapps.com
+  to:
+    kind: Service
+    name: applio-git-service
+    weight: 100
+  port:
+    targetPort: 6969
+  tls:
+    termination: edge
+    insecureEdgeTerminationPolicy: Allow
+  wildcardPolicy: None

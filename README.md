@@ -79,3 +79,33 @@ Applio is made possible thanks to these projects and their references:
 <a href="https://github.com/IAHispano/Applio/graphs/contributors" target="_blank">
   <img src="https://contrib.rocks/image?repo=IAHispano/Applio" />
 </a>
+
+### OpenShift deployment
+
+oc new-project applio4
+
+oc new-app https://github.com/takleung/Applio.git#ocp4.15 \
+  --name=applio-git \
+  --context-dir=/ \
+  --strategy=docker \
+  -n applio4
+
+oc create route edge applio-git-secure-route \
+  --service=applio-git \
+  --port=6969 \
+  --insecure-policy=Redirect \
+  -n applio4
+
+oc create pvc app-logs-pvc \
+  --namespace=applio4 \
+  --access-mode=ReadWriteOnce \
+  --storage=100Gi \
+  --storage-class=gp3-csi \
+  --volume-mode=Filesystem
+
+oc create pvc app-opt-pvc \
+  --namespace=applio4 \
+  --access-mode=ReadWriteOnce \
+  --storage=100Gi \
+  --storage-class=gp3-csi \
+  --volume-mode=Filesystem

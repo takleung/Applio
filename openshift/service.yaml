@@ -1,0 +1,23 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: applio-git-service
+  namespace: applio4
+  labels:
+    app: applio-git
+spec:
+  clusterIP: 172.30.65.92
+  ipFamilies:
+    - IPv4
+  ports:
+    - protocol: TCP
+      port: 6969
+      targetPort: 6969
+  internalTrafficPolicy: Cluster
+  clusterIPs:
+    - 172.30.65.92
+  type: ClusterIP
+  ipFamilyPolicy: SingleStack
+  sessionAffinity: None
+  selector:
+    app: applio-git

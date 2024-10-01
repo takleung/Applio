@@ -1,8 +1,6 @@
 kind: Deployment
 apiVersion: apps/v1
 metadata:
-  annotations:
-    deployment.kubernetes.io/revision: '6'
   name: applio-git
   namespace: applio4
   labels:
